@@ -4,6 +4,7 @@
   "description": "Welbex test task",
   "main": "server/index.js",
   "scripts": {
+    "prebuild": "rm -rf dist",
     "start": "node server/bin/server.js"
   },
   "repository": {

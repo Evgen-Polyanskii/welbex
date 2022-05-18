@@ -49,7 +49,7 @@ module.exports = (app) => {
         const postId = req.params.id;
         postsRepositories.initialize(req.user);
         const post = await postsRepositories.findPost(postId);
-        if (_.isNull(post)) res.send(404, `Post not found`);
+        if (_.isNull(post)) return res.send(404, `Post not found`);
         if (req.user.id === post.author_id) {
           const newData = req.files ? { ...req.body, files: req.files.files } : req.body;
           await postsRepositories.updatePost(post, newData);
@@ -59,7 +59,6 @@ module.exports = (app) => {
           res.send(403, 'You cannot edit this post.');
         }
       } catch (err) {
-        console.log(err)
         res.send(500, 'Something went wrong, please try again');
       }
     })
@@ -67,7 +66,7 @@ module.exports = (app) => {
       try {
         const postId = req.params.id;
         const post = await postsRepositories.findPost(postId);
-        if (_.isNull(post)) res.send(404, `Post not found`);
+        if (_.isNull(post)) return res.send(404, `Post not found`);
         if (req.user.id === post.author_id) {
           await postsRepositories.deletePost(postId);
           res.send(200, `Post was deleted`);
