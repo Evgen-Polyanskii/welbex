@@ -1,0 +1,10 @@
+extends ../layouts/application.pug
+
+block header
+    = 'Вход'
+
+block content
+    form(action='/login' method='post')
+        +input(signInForm, 'Email', errors)(type="Email")
+        +input(signInForm, 'Password', errors)(type="password")
+        +submit('Войти')

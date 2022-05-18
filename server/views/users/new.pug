@@ -1,0 +1,11 @@
+extends ../layouts/application.pug
+
+block header
+    = 'Регистрация'
+
+block content
+    form(action='/users' method='post')
+        +input(user, 'Nickname', errors)(type="text")
+        +input(user, 'Email', errors)(type="Email")
+        +input(user, 'Password', errors)(type="password")
+        +submit('Создать')

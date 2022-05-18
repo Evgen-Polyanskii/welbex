@@ -1,0 +1,32 @@
+extends ../layouts/application.pug
+block content
+    if posts.length === 0
+        h3.text-muted= 'Посты отсутствуют'
+        a.nav-link(href='/posts/new')= 'Создать пост'
+    else
+        a.nav-link(href='/posts/new')= 'Создать пост'
+    table.table.table-striped
+        thead
+            tr
+                th= 'ID'
+                th= 'Сообщение'
+                th= 'Загруженные файлы'
+                th= 'Дата записи'
+                th= 'Автор сообщения'
+                th
+        tbody
+          each post in posts
+              tr
+                  td= post.id
+                  td= post.message
+                  td
+                    ul
+                      each file in post.files
+                        li
+                          - const fileName = getFileName(file.file_path)
+                          a.nav-link(href=`/${post.id}/${fileName}`)= fileName
+                  td= formDate(post.published_at)
+                  td= post.author.nickname
+                  td
+                      a(class='btn-link btn' href=`posts/${post.id}/edit`)= 'Изменить'
+                      +buttonTo(`posts/${post.id}`, 'DELETE')(class='btn-link btn' value='Удалить')

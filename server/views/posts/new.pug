@@ -1,0 +1,12 @@
+extends ../layouts/application.pug
+
+block header
+    div.text-center
+        = 'Создание поста'
+block content
+    div.w-50.mx-auto
+        form(action='/posts' method='post', enctype='multipart/form-data')
+            +textarea(post, 'Message', errors)
+            +input(post, 'Published_at', errors)(type='text')
+            +input(post, 'Files', errors)(type='file' multiple)
+            +submit('Создать')

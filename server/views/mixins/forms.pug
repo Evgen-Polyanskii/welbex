@@ -1,0 +1,55 @@
+- const getInputId = (property) => `data_${property}`;
+- const getInputName = (property) => property.toLowerCase();
+
+- const formDate = (str) => {
+-    const date = new Date(str);
+-    return date.toLocaleString();
+- }
+
+- const getFileName = (filePath) => {
+-   const name = filePath.split('/');
+-   return name[name.length - 1];
+- }
+
+mixin buttonTo(action, method)
+    form(action=`${action}?_method=${method}`, method="post")
+        input(type='submit')&attributes(attributes)
+
+mixin input(entity = {}, name, errors = [])
+      - propertyName = name.toLowerCase()
+      - propertyErrors = errors.filter((err) => err[propertyName])
+      - classLine = 'form-control' + (propertyErrors.length === 0 ? '' : ' is-invalid')
+      - inputId = getInputId(propertyName)
+        .mb-3(class=(errors[propertyName] && 'has-danger'))
+            label(
+                for=inputId
+            )= name
+            input(
+                id=inputId
+                name=getInputName(propertyName)
+                class=classLine
+                value=entity[propertyName]
+            )&attributes(attributes)
+            if propertyErrors.length > 0
+                .invalid-feedback= propertyErrors.map((err) => err[propertyName]).flat().join('. ')
+
+mixin textarea(entity, name, errors = [])
+  - propertyName = name.toLowerCase()
+  - propertyErrors = errors.filter((err) => err[propertyName])
+  - classLine = 'form-control' + (propertyErrors.length === 0 ? '' : ' is-invalid')
+  - inputId = getInputId(propertyName)
+    .mb-3(class=(errors[propertyName] && 'has-danger'))
+        label(
+            for= inputId
+        )= name
+        textarea(
+            class= classLine
+            id= inputId
+            name= getInputName(propertyName)
+            rows= 3
+        )&attributes(attributes)= entity[propertyName]
+        if propertyErrors.length > 0
+            .invalid-feedback= propertyErrors.map((err) => err[propertyName]).flat().join('. ')
+
+mixin submit(value)
+    input(class='btn btn-primary' type='submit' value=value)&attributes(attributes)
